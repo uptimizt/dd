@@ -2,26 +2,29 @@
 
 require_once __DIR__ . '/dd/kint.phar';
 
+use Kint\Kint;
+
+/**
+ * d() - visual
+ * s() - cli
+ */
+
 
 if (!\function_exists('dd')) {
-    /**
-     * Alias of Kint::dump().
-     *
-     * @param mixed ...$args
-     *
-     * @return int|string
-     */
     function dd(...$args)
     {
-        return Kint::dump(...$args);
+        Kint::$aliases[] = 'dd';
+        d(...$args);
+        wp_die('===');
+
     }
 
-    Kint::$aliases[] = 'dd';
 }
 
-function ddd(...$args){
-
-    dd(...$args);
-    wp_die('ddd end');
-    
+if (!\function_exists('ds')) {
+    function ds(...$args){
+        Kint::$aliases[] = 'ds';
+        s(...$args);
+        exit;
+    }
 }
